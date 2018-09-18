@@ -1,5 +1,14 @@
+html,
+body ,
+#root{
+  height: 100vh;
+}
 .App {
   text-align: center;
+  background-color: black;
+  height: 100%;
+  display: flex;
+
 }
 
 .App-logo {
@@ -25,4 +34,17 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+.key-container{
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+}
+.key{
+  background-color: blueviolet;
+  display: inline-block;
+  width: 300px;
+  height: 160px;
+  margin: 10px;
+  color:#fff;
 }

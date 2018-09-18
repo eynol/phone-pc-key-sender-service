@@ -13,6 +13,26 @@ var restify = require('restify');
 var ks = require('node-key-sender');
 
 
+/**
+ * 
+ * 
+ *  DB config
+ */
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+db.defaults({ configs: [] })
+    .write()
+
+
+
+
+
+/**
+ *  Server config
+ */
 var server = restify.createServer({
     name: 'Key Sender',
 
@@ -21,14 +41,27 @@ var server = restify.createServer({
 server.pre(cors.preflight)
 server.use(cors.actual)
 
+
+server.get('/ping', (req, res, next) => {
+    res.json({ code: 1 });
+    next();
+});
+
 server.get('/page_down', (req, res, next) => {
     res.json({ code: 1 });
     pressPageDown()
     next();
 });
+
 server.get('/page_up', (req, res, next) => {
     res.json({ code: 1 });
     pressPageUp();
+    next();
+});
+
+server.get('/configs', (req, res, next) => {
+    let config = db.get('configs').values().toJSON()
+    res.json({ code: 1, data: config });
     next();
 });
 
@@ -41,5 +74,5 @@ function pressPageDown() {
 }
 
 function pressPageUp() {
-    ks.sendKeys(['page_down']).then(() => console.log('page down'), (e) => console.log('err:', e))
+    ks.sendKeys(['page_up']).then(() => console.log('page up'), (e) => console.log('err:', e))
 }
