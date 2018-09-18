@@ -1,0 +1,17 @@
+{
+  "name": "phone-pc-key-sender-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-key-sender": "^1.0.10",
+    "restify": "^7.2.1",
+    "restify-cors-middleware": "^1.1.1"
+  }
+}
