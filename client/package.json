@@ -23,13 +23,9 @@
       "target": "http://localhost:8080",
       "changeOrigin": true
     },
-    "/sockjs-node/*": {
-      "target": "http://localhost:8080",
-      "changeOrigin": true
-    },
     "/keysender/*": {
       "target": "http://localhost:8080",
-      "changeOrigin": true
+      "ws": true
     }
   }
 }

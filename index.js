@@ -11,7 +11,7 @@ const cors = corsMiddleware({
 var fs = require('fs');
 var restify = require('restify');
 var ks = require('node-key-sender');
-var sockjs = require('sockjs');
+var WebSocket = require('ws');
 
 (function () {
     // Since node-key-sender has not been updated on npmjs.com, we have to update it manually.
@@ -21,6 +21,7 @@ var sockjs = require('sockjs');
     if (text_file.search("var command = 'java -jar \\'' + jarPath + '\\' ' + arrParams.join(' ')")) {
         text_file = text_file.replace(/'java -jar \\'' \+ jarPath \+ '\\' '/g, "'java -jar \\\"' + jarPath + '\\\" '");
         fs.writeFileSync(__dirname + '/node_modules/node-key-sender/key-sender.js', text_file);
+        delete require.cache[require.resolve('node-key-sender')]
         ks = require('node-key-sender');
         console.log('[fixed] node-key-sender')
     }
@@ -28,7 +29,7 @@ var sockjs = require('sockjs');
 
 
 
-
+ks.setOption('startDelayMillisec', 20);
 /**
  * 
  * 
@@ -94,9 +95,9 @@ server.get('/configs', (req, res, next) => {
  *  WebSocket config
  */
 
-var echo = sockjs.createServer({});
-echo.on('connection', function (conn) {
-    conn.on('data', function (message) {
+const wss = new WebSocket.Server({ server ,path:'/keysender'});
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
         let req;
         try {
             req = JSON.parse(message);
@@ -119,13 +120,13 @@ echo.on('connection', function (conn) {
                 }
             }
         }
+      console.log('received: %s', message);
     });
-    conn.write('test');
-});
+  
+    ws.send('something');
+  });
+  
 
-
-
-echo.installHandlers(server.server, { prefix: '/keysender' });
 
 server.listen(8080, '0.0.0.0', function () {
     console.log('%s listening at %s', server.name, server.url);

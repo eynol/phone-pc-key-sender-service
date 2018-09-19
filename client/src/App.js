@@ -18,6 +18,12 @@ import { connect, close, isAlive, send } from './websocket';
 
 import ArrowKeys from './components/ArrowKeys';
 
+let screen = window.screen;
+let rfs = document.documentElement.requestFullScreen || document.documentElement.webkitRequestFullScreen;
+rfs.apply(document.documentElement)
+screen.orientation.lock("landscape-primary");
+screen.orientation.lock("landscape");
+// screen.lockOrientation('');
 const adapter = new LocalStorage('db')
 const db = low(adapter)
 
@@ -50,8 +56,8 @@ class App extends Component {
   componentDidMount() {
 
     let location = window.location;
-    connect(location.protocol + '//' + location.hostname + ':' + location.port + '/keysender/', {
-      onopen: () => { console.log('open');send('yess') },
+    connect('ws:' + '//' + location.hostname + ':' + location.port + '/keysender', {
+      onopen: () => { console.log('open'); send('yess') },
       onmessage: (ms) => { console.log(ms) },
       onclose: (e) => console.log(e)
     });

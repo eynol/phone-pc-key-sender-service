@@ -31,7 +31,7 @@ class ArrowKeys extends Component {
 
     return (
       <div className="arrow-keys-layout">
-        <span className="button arrow-keys-layout--up" onClickCapture={pressUp}><ArrowUpward classes={{ root: "arrow-keys-icon" }} /></span>
+        <span className="button arrow-keys-layout--up" onMouseDown={pressUp}><ArrowUpward classes={{ root: "arrow-keys-icon" }} /></span>
         <span className="button arrow-keys-layout--left" onClickCapture={pressLeft}><ArrowLeft classes={{ root: "arrow-keys-icon" }} /></span>
         <span className="button arrow-keys-layout--down" onClickCapture={pressDown}> <ArrowDownward classes={{ root: "arrow-keys-icon" }} /></span>
         <span className="button arrow-keys-layout--right" onClickCapture={pressRight}><ArrowRight classes={{ root: "arrow-keys-icon" }} /></span>

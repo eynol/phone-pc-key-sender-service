@@ -12,6 +12,7 @@
 
 .arrow-keys-layout>span {
   display: flex;
+  pointer-events: all;
   font-size: inherit;
   align-items: center;
   justify-content: center;
