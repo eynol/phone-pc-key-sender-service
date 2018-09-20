@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect, close, isAlive, send } from '../websocket';
+import React, { PureComponent } from 'react';
+import { isAlive, send } from '../websocket';
 
 
 import './ArrowKeys.css'
@@ -16,19 +16,8 @@ const pressRight = () => isAlive() && pressKey('right');
 const pressDown = () => isAlive() && pressKey('down');
 
 
-class ArrowKeys extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      layer: 'layout',
-      online: false,
-      host: '',
-    }
-  }
-
+class ArrowKeys extends PureComponent {
   render() {
-
-
     return (
       <div className="arrow-keys-layout">
         <span className="button arrow-keys-layout--up" onMouseDown={pressUp}><ArrowUpward classes={{ root: "arrow-keys-icon" }} /></span>

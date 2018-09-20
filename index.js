@@ -1,5 +1,5 @@
 const corsMiddleware = require('restify-cors-middleware')
-
+var serveStatic = require('serve-static-restify')
 const cors = corsMiddleware({
     preflightMaxAge: 5, //Optional
     origins: ['*'],
@@ -7,7 +7,7 @@ const cors = corsMiddleware({
     exposeHeaders: ['API-Token-Expiry']
 })
 
-
+var notifier = require('node-notifier');
 var fs = require('fs');
 var restify = require('restify');
 var ks = require('node-key-sender');
@@ -29,7 +29,7 @@ var WebSocket = require('ws');
 
 
 
-ks.setOption('startDelayMillisec', 20);
+// ks.setOption('startDelayMillisec', 20);
 /**
  * 
  * 
@@ -56,6 +56,9 @@ var server = restify.createServer({
 })
 
 server.pre(cors.preflight)
+server.pre(serveStatic('build/', { 'index': ['index.html', 'index.htm'] }))
+
+
 server.use(cors.actual)
 
 
@@ -95,37 +98,47 @@ server.get('/configs', (req, res, next) => {
  *  WebSocket config
  */
 
-const wss = new WebSocket.Server({ server ,path:'/keysender'});
+const wss = new WebSocket.Server({ server, path: '/keysender' });
 wss.on('connection', function connection(ws) {
+    notifier.notify({
+        title: '新设备已连接',
+        message: 'IP=>[' + ws._socket.remoteAddress + ']',
+    })
     ws.on('message', function incoming(message) {
         let req;
-        try {
-            req = JSON.parse(message);
-        } catch (e) {
-            console.error(e);
-            req = message;
-        }
+        if (/^{/.test(message)) {
+            try {
+                req = JSON.parse(message);
+            } catch (e) {
+                req = message;
+            }
 
-        if (req.type === 'sendkey') {
-            switch (req.key) {
-                case 'page_down': {
-                    pressPageDown();
-                    break;
-                }
-                case 'page_up': {
-                    pressPageUp();
-                }
-                default: {
-                    sendKey(req.key);
+            if (req.type === 'sendkey') {
+                switch (req.key) {
+                    case 'page_down': {
+                        pressPageDown();
+                        break;
+                    }
+                    case 'page_up': {
+                        pressPageUp();
+                    }
+                    default: {
+                        sendKey(req.key);
+                    }
                 }
             }
+        } else {
+            if (message === 'ping') {
+                ws.send('pong');
+            }
         }
-      console.log('received: %s', message);
+
+        console.log('received: %s', message);
     });
-  
-    ws.send('something');
-  });
-  
+
+    ws.send('ping');
+});
+
 
 
 server.listen(8080, '0.0.0.0', function () {

@@ -12,9 +12,10 @@
   "dependencies": {
     "lowdb": "^1.0.0",
     "node-key-sender": "^1.0.10",
+    "node-notifier": "^5.2.1",
     "restify": "^7.2.1",
     "restify-cors-middleware": "^1.1.1",
-    "sockjs": "^0.3.19",
+    "serve-static-restify": "^3.0.0",
     "ws": "^6.0.0"
   }
 }

@@ -1,0 +1,26 @@
+.OnlyPageUpAndDown-layout {
+  display: flex;
+  padding: 10px;
+  user-select: none;
+  box-sizing: border-box;
+  justify-items: stretch;
+  align-items: stretch;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+@media screen and (orientation:landscape) {
+  .OnlyPageUpAndDown-layout {
+    flex-direction: row;
+  }
+}
+
+.OnlyPageUpAndDown-layout>span {
+  display: flex;
+  pointer-events: all;
+  font-size: inherit;
+  margin: 5px;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,22 @@
+.secondary-keys-layout {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 50%;
+  align-items: stretch;
+  grid-gap: 10px 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  justify-content: stretch;
+}
+
+.secondary-keys-layout>span {
+  display: flex;
+  pointer-events: all;
+  font-size: inherit;
+  height: 70px;
+  width: 70px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  justify-self: center;
+}
